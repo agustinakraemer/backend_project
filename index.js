@@ -25,7 +25,8 @@ class ProductManager {
     }
 
     getProductById(id){
-        if (this.producto.id === id){
+        let productId = this.productos.find(this.producto.id === id)
+        if (productId != null){
             return this.producto
         } else {
             console.log("Not found")
@@ -34,7 +35,7 @@ class ProductManager {
 }
 
 const productManager = new ProductManager()
-console.log(tickets.getProducts())
+console.log(productos.getProducts())
 console.log(productos)
 
 
