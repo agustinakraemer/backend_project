@@ -36,7 +36,7 @@ class ProductManager {
 }
 
 const productManager = new ProductManager()
-console.log(productManager.getProducts())
+productManager.addProduct ('Producto1', '23cm x 28cm', '1500', 'imagen', '435', '30')
 console.log(productManager)
 
 
