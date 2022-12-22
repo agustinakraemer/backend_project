@@ -5,21 +5,26 @@ class ProductManager {
     }
 
     addProduct (title, description, price, thumbnail, code, stock){
-        if(!title || !description || !price || !thumbnail || !code || !stock ){
-            console.log("Completa todos los campos")
-        } else if (this.productos.includes(code)){
-            console.log('El codigo ya está en uso')
-        } else {
-            const producto = {
-                id: this.#generarId(),
-                title,
-                description, 
-                price, 
-                thumbnail, 
-                code, 
-                stock,
+        if(title && description && price && thumbnail && code && stock ){
+            const codeYaExiste = this.productos.some(
+                (product) => product.code === code
+            );
+            if (!codeYaExiste){
+                const product = {
+                    id: this.#generarId(),
+                    title,
+                    description, 
+                    price, 
+                    thumbnail, 
+                    code, 
+                    stock,
+                }
+                this.productos.push(product);
+            } else {
+                console.log("Ya existe ese código.");
             }
-            this.productos.push(producto);
+        } else {
+            console.log("Se deben completar todos los campos.");
         }
         
     }
@@ -28,7 +33,6 @@ class ProductManager {
         return id;
     }
     #codigoId (){
-
     }
     getProducts() {
         return this.productos;
@@ -37,7 +41,7 @@ class ProductManager {
     getProductById(id) {
         let productId = this.productos.find(this.producto.id === id)
         if (productId){
-            return this.producto;
+            return this.product;
         } else {
             console.log("Not found")
         }
@@ -46,8 +50,7 @@ class ProductManager {
 
 const productManager = new ProductManager()
 productManager.addProduct ('Producto1', '23cm x 28cm', '1500', 'imagen', '435','30')
-productManager.addProduct ('Producto2', '29cm x 32cm', '200', 'imagen', '435','30')
-console.log(productManager)
+productManager.addProduct ('Producto2', '29cm x 32cm', '2000', 'imagen', '431', '50')
 console.log(productManager)
 
 
