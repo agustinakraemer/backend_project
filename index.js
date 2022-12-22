@@ -5,15 +5,18 @@ class ProductManager {
     }
 
     addProduct (title, description, price, thumbnail, code, stock){
-        const producto = {
+        if(!title || !description || !price || !thumbnail || !code || !stock ){
+            console.log("Not found")
+        } else {
+            const producto = {
             id: this.#generarId(),
             title,
             description, 
             price, 
             thumbnail, 
             code, 
-            stock
-        }
+            stock,
+        }}
         this.productos.push(producto);
     }
     #generarId() {
@@ -27,7 +30,7 @@ class ProductManager {
 
     getProductById(id) {
         let productId = this.productos.find(this.producto.id === id)
-        if (productId != ''){
+        if (productId){
             return this.producto;
         } else {
             console.log("Not found")
@@ -36,7 +39,7 @@ class ProductManager {
 }
 
 const productManager = new ProductManager()
-productManager.addProduct ('Producto1', '23cm x 28cm', '1500', 'imagen', '435', '30')
+productManager.addProduct ('Producto1', '23cm x 28cm', '1500', 'imagen', '435')
 console.log(productManager)
 
 
