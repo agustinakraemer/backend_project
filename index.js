@@ -39,12 +39,7 @@ class ProductManager {
     }
 
     getProductById(id) {
-        let productId = this.productos.find(this.producto.id === id)
-        if (productId){
-            return this.product;
-        } else {
-            console.log("Not found")
-        }
+        return this.productos.find((product) => product.id === id);
     }
 }
 
