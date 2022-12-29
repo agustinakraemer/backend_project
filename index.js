@@ -61,6 +61,7 @@ class ProductManager {
     }
     async updateProduct(id) {
         const updateProductId = this.productos.find((product) => product.id === id);
+        fs.writeFile(updateProductId)
 
     }
     getProducts() {
