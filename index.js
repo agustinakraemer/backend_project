@@ -3,7 +3,7 @@ const rutaProducts = 'products.json'
 
 class ProductManager {
 
-    constructor() {
+    constructor(rutaProducts) {
         this.productos = rutaProducts;
     }
 
@@ -73,6 +73,8 @@ class ProductManager {
     }
 }
 
+const productManager = new ProductManager()
+productManager.addProduct ('Producto1', '23cm x 28cm', '1500', 'imagen', '435','30')
 
 
 /* class ProductManager {
