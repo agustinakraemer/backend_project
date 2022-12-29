@@ -57,12 +57,13 @@ class ProductManager {
     }
     async deleteProduct(id){
         const deleteProductId = this.productos.find((product) => product.id === id);
-        fs.unlinkSync(deleteProductId)
+        fs.unlinkSync(rutaProducts, deleteProductId)
     }
-    async updateProduct(id) {
-        const updateProductId = this.productos.find((product) => product.id === id);
-        fs.writeFile(updateProductId)
-
+    async updateProduct(id, campo) {
+        if(id && title && description && price && thumbnail && code && stock){
+            const updateProductId = this.productos.find((product) => product.id === id);
+            fs.writeFile(rutaProducts, campo)
+        }
     }
     getProducts() {
         return JSON.parse(this.productos);
