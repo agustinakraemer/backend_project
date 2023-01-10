@@ -1,18 +1,18 @@
-const fs = require('fs')
-const rutaProducts = 'products.json'
+/* const fs = require('fs') */
+import fs from 'fs';
 
-class ProductManager {
+export class ProductManager {
 
-    constructor(rutaProducts) {
-        this.productos = rutaProducts;
+    constructor(path) {
+        this.path = path;
     }
 
-    async consultProduct () {
+    async getProducts() {
         try {
-            if(fs.existsSync(rutaProducts)){
-                const infoProducts = await fs.promises.readFile(rutaProducts, 'utf-8')
-                const infoProductsJS = JSON.parse(infoProducts)
-                return infoProductsJS
+            if(fs.existsSync(this.path)){
+                const products = await fs.promises.readFile(this.path, 'utf-8')
+               /*  const infoProductsJS = JSON.parse(infoProducts) */
+                return JSON.parse(products)
             } else {
                 return []
             }
@@ -20,15 +20,84 @@ class ProductManager {
             console.log(error)
         }
     }
-
     async addProduct (title, description, price, thumbnail, code, stock){
+        const product = {
+            id: await this.#generarId(),
+            title,
+            description, 
+            price, 
+            thumbnail, 
+            code, 
+            stock,
+        }
+        const products = await this.getProducts()
+        products.push(product)
+        await fs.promises.writeFile(this.path, JSON.stringify(products))
+    }
+
+    async #generarId() {
+        const products = await this.getProducts()
+        let id = products.length === 0 ? 1 : products[products.length - 1].id + 1
+        return id;
+    }
+    async deleteProduct(id){
+        const products = await this.getProducts()
+        const deleteProductId = this.productos.find((product) => product.id === id);
+        fs.unlinkSync(rutaProducts, deleteProductId)
+    }
+    async updateProduct(id, campo) {
+        if(id && title && description && price && thumbnail && code && stock){
+            const products = await this.getProducts()
+            const updateProductId = this.productos.find((product) => product.id === id);
+            fs.writeFile(rutaProducts, campo)
+        }
+    }
+
+    async getProductById(id) {
+        const products = await this.getProducts()
+        const producto = products.find((product) => product.id === id)
+        if (producto){
+            return producto
+        } else {
+            return 'producto no existe'
+        }
+    }
+}
+
+// para probar
+const productManager = new ProductManager('products.json')
+
+async function pruebaAgregar() {
+    await productManager.addProduct('Producto4', '25cm x 50cm', '1000', 'imagen', '200','4')
+}
+async function pruebaBuscar() {
+    const product = await productManager.getProducts(3)
+    console.log(product)
+}
+
+
+
+/* async consultProduct () {
+        try {
+            if(fs.existsSync(this.path)){
+                const infoProducts = await fs.promises.readFile(this.path, 'utf-8')
+               
+                return JSON.parse(infoProducts)
+            } else {
+                return []
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    } */
+
+    /* async addProduct (title, description, price, thumbnail, code, stock){
         try {
             if(title && description && price && thumbnail && code && stock ){
                 const codeYaExiste = this.productos.some(
                     (product) => product.code === code
                 );
                 if (!codeYaExiste){
-                    await this.consultProduct()
                     const product = {
                         id: this.#generarId(),
                         title,
@@ -38,8 +107,9 @@ class ProductManager {
                         code, 
                         stock,
                     }
-                    productos.push(product)
-                    await fs.promises.writeFile(rutaProducts, JSON.stringify(this.productos))
+                    const products = await this.getProducts()
+                    products.push(product)
+                    await fs.promises.writeFile(this.path, JSON.stringify(products))
                 } else {
                     console.log("Ya existe ese código.");
                 }
@@ -50,33 +120,7 @@ class ProductManager {
             console.log(error)
         }
         
-    }
-    #generarId() {
-        let id = this.productos.length === 0 ? 1 : this.productos[this.productos.length - 1].id + 1
-        return id;
-    }
-    async deleteProduct(id){
-        const deleteProductId = this.productos.find((product) => product.id === id);
-        fs.unlinkSync(rutaProducts, deleteProductId)
-    }
-    async updateProduct(id, campo) {
-        if(id && title && description && price && thumbnail && code && stock){
-            const updateProductId = this.productos.find((product) => product.id === id);
-            fs.writeFile(rutaProducts, campo)
-        }
-    }
-    getProducts() {
-        return JSON.parse(this.productos);
-    }
-
-    getProductById(id) {
-        return this.productos.find((product) => product.id === id);
-    }
-}
-
-const productManager = new ProductManager()
-productManager.addProduct ('Producto1', '23cm x 28cm', '1500', 'imagen', '435','30')
-
+    } */
 
 /* class ProductManager {
 
