@@ -7,12 +7,16 @@ export class ProductManager {
         this.path = path;
     }
 
-    async getProducts() {
+    async getProducts(limit) {
         try {
             if(fs.existsSync(this.path)){
                 const products = await fs.promises.readFile(this.path, 'utf-8')
                /*  const infoProductsJS = JSON.parse(infoProducts) */
+               if(limit === 'max'){
                 return JSON.parse(products)
+               } else {
+                return JSON.parse(products).slice(0,limit)
+               }
             } else {
                 return []
             }
@@ -20,6 +24,7 @@ export class ProductManager {
             console.log(error)
         }
     }
+
     async addProduct (title, description, price, thumbnail, code, stock){
         const product = {
             id: await this.#generarId(),
@@ -55,7 +60,7 @@ export class ProductManager {
 
     async getProductById(id) {
         const products = await this.getProducts()
-        const producto = products.find((product) => product.id === id)
+        const producto = products.find((product) => product.id === parseInt(id))
         if (producto){
             return producto
         } else {
