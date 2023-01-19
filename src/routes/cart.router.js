@@ -1,21 +1,25 @@
 import { application, Router } from "express";
-import { CartManager} from './src/app'
+import { CartController } from '../controllers/cartController'
 
 const router = Router()
 
-const cartManager = new CartManager('cart.json')
+const cartController = new CartController('cart.json')
 
-async function traerCarrito() {
-    const carrito = await cartManager.getCarrito(10)
-    console.log(carrito)
-}
+router.get('/', cartController.getCarrito(req, res))
 
-const carritos = traerCarrito()
+router.get('/:idCarrito', cartController.itemId(req, res))
 
-router.get('/',(req,res)=>{
-    res.json({carritos})
-})
-router.get('/:idCarrito',(req,res)=>{
+router.post('/:idCarrito/products/:idProduct', cartController.addItem(req, res))
+
+router.delete('/delete/:idCarrito', cartController.deleteProductCarrito(req, res))
+
+
+export default cartRouter;
+
+
+
+
+/* router.get('/:idCarrito',(req,res)=>{
     const {idCarrito} = req.params
     const carrito = carritos.find((c) => c.id === parseInt(idCarrito))
     res.json({carrito})
@@ -40,6 +44,4 @@ app.post('/:idCarrito/products/:idProduct', (req,res)=> {
     } else {
         carrito.productos[index].qty++
     }
-})
-
-export default router;
+}) */

@@ -1,18 +1,23 @@
 import { Router } from "express";
-import { ProductManager} from './src/app'
+import { ProductsController } from '../controllers/productsController'
 
 const router = Router()
 
-const productManager = new ProductManager('products.json')
+const productsController = new ProductsController('products.json')
 
-async function pruebaBuscar() {
-    const product = await productManager.getProducts(10)
-    console.log(product)
-}
+router.get('/',productsController.getProducts(req,res))
 
-const products = pruebaBuscar()
+router.get('/:idProduct',productsController.getProductById(req,res))
 
-router.get('/',(req,res)=>{
+router.put('/update/:id', productsController.updateProduct(req,res))
+
+router.delete('/delete/:id', productsController.deleteProduct(req,res))
+
+export default productsRouter;
+
+
+
+/* router.get('/',(req,res)=>{
     res.json({products})
 })
 
@@ -26,7 +31,7 @@ router.post('/',(req,res)=>{
     const product = req.params
     products.push(product)
     res.json({message:'Producto agregado con éxito',product})
-})
+}) */
 
 //para filtrar por query
 /* router.get('/', async(req, res)=> {
