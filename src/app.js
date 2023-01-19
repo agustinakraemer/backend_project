@@ -69,17 +69,53 @@ export class ProductManager {
     }
 }
 
+export class CartManager {
+
+    constructor(path) {
+        this.path = path;
+    }
+
+    async getCarrito(limit) {
+        try {
+            if(fs.existsSync(this.path)){
+                const carritos = await fs.promises.readFile(this.path, 'utf-8')
+               if(limit === 'max'){
+                return JSON.parse(carritos)
+               } else {
+                return JSON.parse(carritos).slice(0,limit)
+               }
+            } else {
+                return []
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    async addProductCart (){
+        const carrito = {
+            id,
+            productos: [
+                product,
+                qty
+            ]
+        }
+        const carritos = await this.getCarritos()
+        carritos.push(carrito)
+        await fs.promises.writeFile(this.path, JSON.stringify(carritos))
+    }
+}
 // para probar
-const productManager = new ProductManager('products.json')
+/* const productManager = new ProductManager('products.json')
 
 async function pruebaAgregar() {
     await productManager.addProduct('Producto4', '25cm x 50cm', '1000', 'imagen', '200','4')
-}
+} */
 async function pruebaBuscar() {
     const product = await productManager.getProducts(3)
     console.log(product)
 }
-
+ 
 
 
 /* async consultProduct () {

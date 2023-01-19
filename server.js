@@ -1,5 +1,4 @@
 import express from 'express'
-import { ProductManager} from './src/app.js'
 import productsRouter from './routes/products.router'
 import cartRouter from './routes/cart.router'
 
@@ -9,7 +8,6 @@ app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(express.static('public'))
 
-const productManager = new ProductManager('products.json')
 
 //Routes
 app.use('/api/products', productsRouter)

@@ -1,20 +1,32 @@
 import { Router } from "express";
+import { ProductManager} from './src/app'
 
 const router = Router()
 
-const products = []
+const productManager = new ProductManager('products.json')
+
+async function pruebaBuscar() {
+    const product = await productManager.getProducts(10)
+    console.log(product)
+}
+
+const products = pruebaBuscar()
 
 router.get('/',(req,res)=>{
     res.json({products})
 })
 
-router.post('/',(req,res)=>{
-    const product = req.body
-    products.push(pet)
-    res.json({message:'Producto agregado con éxito',product})
+router.get('/:idProduct',(req,res)=>{
+    const {idProduct} = req.params
+    const product = products.find((c) => c.id === parseInt(idProduct))
+    res.json({product})
 })
 
-export default router;
+router.post('/',(req,res)=>{
+    const product = req.params
+    products.push(product)
+    res.json({message:'Producto agregado con éxito',product})
+})
 
 //para filtrar por query
 /* router.get('/', async(req, res)=> {
