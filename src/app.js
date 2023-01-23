@@ -1,6 +1,4 @@
 
-
-
 // para probar
 /* const productManager = new ProductManager('products.json')
 

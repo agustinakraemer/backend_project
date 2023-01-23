@@ -1,17 +1,17 @@
 import { application, Router } from "express";
 import { CartController } from '../controllers/cartController.js'
 
-const router = Router()
+const cartRouter = Router()
 
 const cartController = new CartController('cart.json')
 
-router.get('/', cartController.getCarrito(req, res))
+cartRouter.get('/', cartController.getCarrito)
 
-router.get('/:idCarrito', cartController.itemId(req, res))
+cartRouter.get('/:idCarrito', cartController.itemId)
 
-router.post('/:idCarrito/products/:idProduct', cartController.addItem(req, res))
+cartRouter.post('/:idCarrito/products/:idProduct', cartController.addItem)
 
-router.delete('/delete/:idCarrito', cartController.deleteProductCarrito(req, res))
+cartRouter.delete('/delete/:idCarrito', cartController.deleteProductCarrito)
 
 
 export default cartRouter;

@@ -1,17 +1,17 @@
 import { Router } from "express";
 import { ProductsController } from '../controllers/productsController.js'
 
-const router = Router()
+const productsRouter = Router()
 
 const productsController = new ProductsController('products.json')
 
-router.get('/',productsController.getProducts(req,res))
+productsRouter.get('/',productsController.getProducts)
 
-router.get('/:idProduct',productsController.getProductById(req,res))
+productsRouter.get('/:idProduct',productsController.getProductById)
 
-router.put('/update/:id', productsController.updateProduct(req,res))
+productsRouter.put('/update/:id', productsController.updateProduct)
 
-router.delete('/delete/:id', productsController.deleteProduct(req,res))
+productsRouter.delete('/delete/:id', productsController.deleteProduct)
 
 export default productsRouter;
 
