@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-class CartController {
+export class CartController {
 
     constructor(path) {
         this.path = path;
@@ -52,5 +52,3 @@ class CartController {
         fs.unlinkSync(carritos, deleteProductCarrito)
     }
 }
-
-export default CartController;
