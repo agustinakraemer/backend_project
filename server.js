@@ -20,11 +20,11 @@ app.set('view engine', 'handlebars')
 app.set('views',__dirname+'/views') 
 
 app.get('/',(req, res)=>{
-    res.render('vista1')
+    res.render('vista2')
 })
 app.get('/productos',(req, res)=>{
-    const productos = 
-    res.render('realTimeProducts',{productos})
+    const products = productsRouter
+    res.render('home',{products})
 })
 /* app.get('/vista2',(req, res)=>{
     res.render('vista2')
