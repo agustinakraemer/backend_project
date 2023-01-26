@@ -34,6 +34,7 @@ app.get('/',(req, res)=>{
 app.get('/productos',(req, res)=>{
     res.render('home',{products})
 })
+
 /* app.get('/vista2',(req, res)=>{
     res.render('vista2')
 })  */
