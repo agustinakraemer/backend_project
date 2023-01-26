@@ -1,4 +1,5 @@
 import express from 'express'
+import { Server } from 'socket.io'
 import handlebars from 'express-handlebars' 
 import productsRouter from './src/routes/products.router.js'
 import cartRouter from './src/routes/cart.router.js'
@@ -29,15 +30,11 @@ const products =
 ]
 
 app.get('/',(req, res)=>{
-    res.render('vista2')
+    res.render('realTimeProducts')
 })
 app.get('/productos',(req, res)=>{
     res.render('home',{products})
 })
-
-/* app.get('/vista2',(req, res)=>{
-    res.render('vista2')
-})  */
 
 //Routes
 app.use('/api/products', productsRouter)
@@ -45,6 +42,13 @@ app.use('/api/cart', cartRouter)
 
 const PORT = 8080
 
-app.listen(PORT,()=>{
+const httpServer = app.listen(PORT,()=>{
     console.log(`Escuchando al puerto ${PORT}.`)
+})
+
+// Socket
+const socketServer = new Server(httpServer)
+
+socketServer.on('connection',()=>{ //cuando hay una conexión
+    console.log('Conexión establecida')
 })
