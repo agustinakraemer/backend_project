@@ -29,16 +29,35 @@ const products =
     {id:5,title:"Producto5",description:"27cm x 30cm",price:"1500",thumbnail:"imagen",code:"250",stock:"80"}
 ]
 
-app.get('/',(req, res)=>{
+/* app.get('/',(req, res)=>{
     res.render('realTimeProducts')
-})
+}) */
 app.get('/productos',(req, res)=>{
     res.render('home',{products})
 })
 
+  
+app.post("/", (req, res) => {
+    const productToAdd = req.body;
+    const newProduct = productsRouter.addProduct(productToAdd);
+});
+  
+app.delete("/:id", (req, res) => {
+    const { id } = req.params;
+    productsRouter.deleteProduct(parseInt(id));
+    res.json({ message: "producto eliminado con éxito" });
+});
+ 
 //Routes
 app.use('/api/products', productsRouter)
 app.use('/api/cart', cartRouter)
+
+//realtime
+app.get('/', async (req, res) => {
+    const { limit } = req.query;
+    const products = await productManager.getProducts(limit || "all");
+    res.render('index', { products });
+  });
 
 const PORT = 8080
 
@@ -49,6 +68,23 @@ const httpServer = app.listen(PORT,()=>{
 // Socket
 const socketServer = new Server(httpServer)
 
-socketServer.on('connection',()=>{ //cuando hay una conexión
-    console.log('Conexión establecida')
+socketServer.on('connection', (socket) => {
+    console.log('usuario conectado', socket.id)
+    socket.on('disconnect',()=>{
+        console.log('usuario desconectado')
+    });
+
+    socket.on('deleteProduct', async (id) => {
+        await productsRouter.deleteProduct(parseInt(id));
+        const products = await productsRouter.getProducts();
+        socket.emit('deleteProduct', products);
+      });
+    
+      socket.on('addProduct', async (obj) => {
+        await productsRouter.addProduct(obj);
+        const products = await productsRouter.getProducts();
+        socket.emit('addProduct', products);
+      });
 })
+
+
