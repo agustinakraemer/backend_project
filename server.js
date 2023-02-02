@@ -55,7 +55,7 @@ app.use('/api/cart', cartRouter)
 //realtime
 app.get('/', async (req, res) => {
     const { limit } = req.query;
-    const products = await productManager.getProducts(limit || "all");
+    const products = await productsRouter.getProducts(limit || "all");
     res.render('index', { products });
   });
 
