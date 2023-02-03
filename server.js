@@ -47,6 +47,12 @@ app.delete("/:id", (req, res) => {
     productsRouter.deleteProduct(parseInt(id));
     res.json({ message: "producto eliminado con éxito" });
 });
+
+app.get("/realtimeproducts", async (req, res) => {
+    const { limit } = req.query;
+    const products = await productsRouter.getProducts(limit || "all");
+    res.render("Productos cargados hasta el momento", { products });
+  });
  
 //Routes
 app.use('/api/products', productsRouter)
