@@ -3,17 +3,26 @@ import { Server } from 'socket.io'
 import handlebars from 'express-handlebars' 
 import productsRouter from './src/routes/products.router.js'
 import cartRouter from './src/routes/cart.router.js'
+import './src/db/dbConfig.js'
 //dirname
 import { dirname } from 'path'
 import { fileURLToPath } from 'url'
+//mongoose
+import productsModelRouter from './src/routes/products.model.router.js'
+
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 //-------
-const app = express()
+/* const app = express()
 
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
-app.use(express.static('public'))
+app.use(express.static('public')) */
+
+//mongoose
+app.use(express.json())
+app.use(express.urlencoded({extended: true}))
+app.use('/productos', productsModelRouter)
 
 //handlebars
 app.engine('handlebars', handlebars.engine())
@@ -29,26 +38,23 @@ const products =
     {id:5,title:"Producto5",description:"27cm x 30cm",price:"1500",thumbnail:"imagen",code:"250",stock:"80"}
 ]
 
-/* app.get('/',(req, res)=>{
-    res.render('realTimeProducts')
-}) */
-app.get('/productos',(req, res)=>{
+app.get('/api/productos',(req, res)=>{
     res.render('home',{products})
 })
 
   
-app.post("/", (req, res) => {
+app.post("/api", (req, res) => {
     const productToAdd = req.body;
     const newProduct = productsRouter.addProduct(productToAdd);
 });
   
-app.delete("/:id", (req, res) => {
+app.delete("/api/:id", (req, res) => {
     const { id } = req.params;
     productsRouter.deleteProduct(parseInt(id));
     res.json({ message: "producto eliminado con éxito" });
 });
 
-app.get("/realtimeproducts", async (req, res) => {
+app.get("/api/realtimeproducts", async (req, res) => {
     const { limit } = req.query;
     const products = await productsRouter.getProducts(limit || "all");
     res.render("Productos cargados hasta el momento", { products });
@@ -65,16 +71,23 @@ app.get('/', async (req, res) => {
     res.render('index', { products });
   });
 
-const PORT = 8080
+
+const PORT = 8080 
+app.listen(PORT, () => {
+    console.log(`Escuchando al puerto ${PORT}.`);
+})
+
+// SOCKET SERVER
+
+/* const PORT = 8080
 
 const httpServer = app.listen(PORT,()=>{
     console.log(`Escuchando al puerto ${PORT}.`)
-})
+}) */
 
-// Socket
-const socketServer = new Server(httpServer)
+/* const socketServer = new Server(httpServer) */
 
-socketServer.on('connection', (socket) => {
+/* socketServer.on('connection', (socket) => {
     console.log('usuario conectado', socket.id)
     socket.on('disconnect',()=>{
         console.log('usuario desconectado')
@@ -92,5 +105,5 @@ socketServer.on('connection', (socket) => {
         socket.emit('addProduct', products);
       });
 })
-
+ */
 
