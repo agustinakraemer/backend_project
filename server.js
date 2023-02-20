@@ -13,15 +13,13 @@ import productsModelRouter from './src/routes/products.model.router.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 //-------
-/* const app = express()
+const app = express()
 
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
-app.use(express.static('public')) */
+app.use(express.static('public')) 
 
 //mongoose
-app.use(express.json())
-app.use(express.urlencoded({extended: true}))
 app.use('/productos', productsModelRouter)
 
 //handlebars
