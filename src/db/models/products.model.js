@@ -1,12 +1,6 @@
 import mongoose from "mongoose";
 
 const productosSchema = new mongoose.Schema({
-    id:{
-        type: Number,
-        required: true,
-        maxLength: 10,
-        unique: true
-    },
     title:{
         type: String,
         required: true,

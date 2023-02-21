@@ -4,21 +4,21 @@ import { productosModel } from "../db/models/products.model";
 const productsModelRouter = Router()
 
 productsModelRouter.get('/', async (req,res) =>{
-    const products = await productosModel.find({})
+    const productos = await productosModel.find({})
     res.send('Buscar todos')
-    if(products.length!==0){
-        res.json({message: 'Todos los productos', products})
+    if(productos.length!==0){
+        res.json({message: 'Todos los productos', productos})
     } else {
         res.send('No hay producto en la base de datos')
     }
 })
 
 //buscar por ID
-productsModelRouter.get('/IdProduct', async (req,res) =>{
-    const {idProduct} = req.params
-    const product = await productosModel.findById({idProduct})
-    if(product){
-        res.json({message: 'El producto existe', product})
+productsModelRouter.get('/IdProducto', async (req,res) =>{
+    const {idProducto} = req.params
+    const product = await productosModel.findById({idProducto})
+    if(producto){
+        res.json({message: 'El producto existe', producto})
     } else {
         res.send('No hay un producto con ese ID')
     }
@@ -27,8 +27,8 @@ productsModelRouter.get('/IdProduct', async (req,res) =>{
 //agregar un estudiante
 productsModelRouter.post('/productos', async (req,res) =>{
     const productObj = req.body
-    const nuevoProduct = await productosModel.create({productObj})
-    console.log(nuevoProduct);
+    const nuevoProducto = await productosModel.create({productObj})
+    console.log(nuevoProducto);
     res.send('Producto Agregado')
 })
 

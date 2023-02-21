@@ -10,7 +10,6 @@ import { fileURLToPath } from 'url'
 //mongoose
 import productsModelRouter from './src/routes/products.model.router.js'
 
-
 const __dirname = dirname(fileURLToPath(import.meta.url))
 //-------
 const app = express()
