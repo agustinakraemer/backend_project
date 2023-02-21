@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { productosModel } from "../db/models/products.model";
+import { productosModel } from "../db/models/products.model.js";
 
 const productsModelRouter = Router()
 
@@ -16,7 +16,7 @@ productsModelRouter.get('/', async (req,res) =>{
 //buscar por ID
 productsModelRouter.get('/IdProducto', async (req,res) =>{
     const {idProducto} = req.params
-    const product = await productosModel.findById({idProducto})
+    const producto = await productosModel.findById({idProducto})
     if(producto){
         res.json({message: 'El producto existe', producto})
     } else {

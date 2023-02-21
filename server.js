@@ -38,7 +38,6 @@ const products =
 app.get('/api/productos',(req, res)=>{
     res.render('home',{products})
 })
-
   
 app.post("/api", (req, res) => {
     const productToAdd = req.body;
