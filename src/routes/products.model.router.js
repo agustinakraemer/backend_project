@@ -6,11 +6,10 @@ const productsModelRouter = Router()
 productsModelRouter.get('/', async (req,res) =>{
     try {
         const productos = await productosModel.find({})
-        res.send('Buscar todos')
         if(productos.length!==0){
             res.json({message: 'Todos los productos', productos})
         } else {
-            res.send('No hay producto en la base de datos')
+            res.send('No hay productos en la base de datos')
         }
     } catch (error) {
         console.log(error);
@@ -33,7 +32,7 @@ productsModelRouter.get('/idProducto', async (req,res) =>{
 })
 
 //agregar producto
-productsModelRouter.post('/productos', async (req,res) =>{
+productsModelRouter.post('/', async (req,res) =>{
     try {
         const productObj = req.body
         const nuevoProducto = await productosModel.create({productObj})
