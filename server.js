@@ -1,14 +1,14 @@
 import express from 'express'
-import { Server } from 'socket.io'
+/* import { Server } from 'socket.io' */
 import handlebars from 'express-handlebars' 
 import productsRouter from './src/routes/products.router.js'
 import cartRouter from './src/routes/cart.router.js'
-import './src/db/dbConfig.js'
 //dirname
 import { dirname } from 'path'
 import { fileURLToPath } from 'url'
 //mongoose
 import productsModelRouter from './src/routes/products.model.router.js'
+import './src/db/dbConfig.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 //-------
