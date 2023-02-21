@@ -45,11 +45,23 @@ productsModelRouter.post('/productos', async (req,res) =>{
 })
 
 //eliminar producto
-productsModelRouter.delete('/idProducto', async (req,res) =>{
+productsModelRouter.delete('/:idProducto', async (req,res) =>{
     try {
         const {idProducto} = req.params
         const productoEliminado = await productosModel.findByIdAndDelete({idProducto})
         res.json({message:'Producto eliminado con éxito',producto:productoEliminado})
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+//modificar producto
+productsModelRouter.put('/:idProducto', async (req,res) =>{
+    const {idProducto} = req.params
+    const productObj = req.body
+    try {
+        const productoActualizado = await productosModel.findByIdAndDelete({idProducto})
+        res.json({message:'Producto actualizado con éxito',producto:productoActualizado})
     } catch (error) {
         console.log(error);
     }
