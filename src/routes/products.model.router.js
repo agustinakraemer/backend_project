@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { productosModel } from "../db/models/products.model.js";
+import fs from 'fs'
 
 const productsModelRouter = Router()
 
@@ -61,6 +62,17 @@ productsModelRouter.put('/:idProducto', async (req,res) =>{
     try {
         const productoActualizado = await productosModel.findByIdAndDelete({idProducto})
         res.json({message:'Producto actualizado con éxito',producto:productoActualizado})
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+productsModelRouter.get('/create', async (req,res) =>{
+    try {
+        const productsFile = await fs.promises.readFile('products.json', 'uft-8')
+        const productos = JSON.parse(productsFile)
+        await productosModel.create(productos)
+        res.json({message:'Info guardada con éxito'})
     } catch (error) {
         console.log(error);
     }
