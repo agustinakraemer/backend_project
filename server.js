@@ -2,22 +2,40 @@ import express from 'express'
 /* import { Server } from 'socket.io' */
 import handlebars from 'express-handlebars' 
 import productsRouter from './src/routes/products.router.js'
-import cartRouter from './src/routes/cart.router.js'
+import cartRouter from './src/routes/cart.router.js' 
 //dirname
-import { dirname } from 'path'
-import { fileURLToPath } from 'url'
+/* import { dirname } from 'path'
+import { fileURLToPath } from 'url' */
 //mongoose
 import productsModelRouter from './src/routes/products.model.router.js'
 import './src/db/dbConfig.js'
+//Login
+import cookieParser from 'cookie-parser'
+import session from 'express-session'
+import FileStore from 'session-file-store'
+import { __dirname } from './src/utils.js'
 
-const __dirname = dirname(fileURLToPath(import.meta.url))
+/* const __dirname = dirname(fileURLToPath(import.meta.url)) */
 //-------
 const app = express()
 
+const fileStore = FileStore(session) //ejecuntando el modulo firestore
+
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
-app.use(express.static('public')) 
+/* app.use(express.static('public'))  */
 
+//session
+app.use(cookieParser()) 
+
+app.use(session({
+    store:new FileStore({ //le pasamos donde vamos a guadar las sesiones
+        path: __dirname + '/sessions',
+    }),
+    resave: false,
+    saveUninitialized: false,
+    secret:'sessionKey'
+}))
 //mongoose
 app.use('/productos', productsModelRouter)
 
