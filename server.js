@@ -15,27 +15,31 @@ import session from 'express-session'
 import FileStore from 'session-file-store'
 import { __dirname } from './src/utils.js'
 
+
+
 /* const __dirname = dirname(fileURLToPath(import.meta.url)) */
 //-------
 const app = express()
-
-const fileStore = FileStore(session) //ejecuntando el modulo firestore
 
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 /* app.use(express.static('public'))  */
 
 //session
+const fileStore = FileStore(session) //ejecuntando el modulo firestore
+
 app.use(cookieParser()) 
 
-app.use(session({
-    store:new FileStore({ //le pasamos donde vamos a guadar las sesiones
-        path: __dirname + '/sessions',
-    }),
-    resave: false,
-    saveUninitialized: false,
-    secret:'sessionKey'
+app.use
+    (session({
+        store:new fileStore({ //le pasamos donde vamos a guadar las sesiones
+            path: __dirname + '/sessions',
+        }),
+        resave: false,
+        saveUninitialized: false,
+        secret:'sessionKey'
 }))
+
 //mongoose
 app.use('/productos', productsModelRouter)
 
