@@ -1,5 +1,6 @@
 import express from 'express'
 /* import { Server } from 'socket.io' */
+//handlebars
 import handlebars from 'express-handlebars' 
 import productsRouter from './src/routes/products.router.js'
 import cartRouter from './src/routes/cart.router.js' 
@@ -37,16 +38,25 @@ app.use
         }),
         resave: false,
         saveUninitialized: false,
-        secret:'sessionKey'
+        secret:'sessionKey',
+        cookie:{maxAge:60000} //lo que quiero que dure la sesion (60 segundos acá)
 }))
 
+//ruta session
+app.get('/session',(req,res)=>{
+    console.log(req.body) //username - password
+    const{username, password} = req.body //destructuring
+    req.session.username = username
+    req.session.password = password
+    res.json({message:'Sesion iniciada con éxito'})
+})
 //mongoose
 app.use('/productos', productsModelRouter)
 
 //handlebars
 app.engine('handlebars', handlebars.engine())
-app.set('view engine', 'handlebars')
 app.set('views',__dirname+'/views') 
+app.set('view engine', 'handlebars') //motor de plantilla que usamos
 
 const products = 
     [
