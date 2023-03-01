@@ -46,9 +46,16 @@ app.use
 app.get('/session',(req,res)=>{
     console.log(req.body) //username - password
     const{username, password} = req.body //destructuring
-    req.session.username = username
+    req.session.username = username //donde se guarda la info de la sesion
     req.session.password = password
     res.json({message:'Sesion iniciada con éxito'})
+})
+
+app.get('/logout',(req,res)=>{
+    req.session.destroy((error)=>{
+        if(error)console.log(error);
+        else console.log('Sesión finalizada');
+    })
 })
 //mongoose
 app.use('/productos', productsModelRouter)
