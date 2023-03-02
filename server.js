@@ -15,6 +15,8 @@ import cookieParser from 'cookie-parser'
 import session from 'express-session'
 import FileStore from 'session-file-store'
 import { __dirname } from './src/utils.js'
+import sessionRouter from './src/routes/sessions.router.js'
+import viewsRouter from './src/routes/views.router.js'
 
 
 
@@ -57,6 +59,11 @@ app.get('/logout',(req,res)=>{
         else console.log('Sesión finalizada');
     })
 })
+
+//routes session
+app.use('/session', sessionRouter)
+app.use('/views', viewsRouter)
+
 //mongoose
 app.use('/productos', productsModelRouter)
 
@@ -89,23 +96,23 @@ app.delete("/api/:id", (req, res) => {
     res.json({ message: "producto eliminado con éxito" });
 });
 
-app.get("/api/realtimeproducts", async (req, res) => {
+/* app.get("/api/realtimeproducts", async (req, res) => {
     const { limit } = req.query;
     const products = await productsRouter.getProducts(limit || "all");
     res.render("Productos cargados hasta el momento", { products });
-  });
+  }); */
  
 //Routes
 app.use('/api/products', productsRouter)
 app.use('/api/cart', cartRouter)
 
 //realtime
-app.get('/', async (req, res) => {
+/* app.get('/', async (req, res) => {
     const { limit } = req.query;
     const products = await productsRouter.getProducts(limit || "all");
     res.render('index', { products });
   });
-
+ */
 
 const PORT = 8080 
 app.listen(PORT, () => {

@@ -1,12 +1,9 @@
-/* import { Router } from "express";
-import fs from 'fs';
+ import { Router } from "express";
 
-const router = Router();
 
-router.post('/', async(req,res)=>{
-    const productos = req.body
-    let productos = []
-    if(fs .existsSync(path){
-        const 
-    })
-}) */
+const viewsRouter = Router();
+
+viewsRouter.get('/registro',(req,res)=>{
+    res.render('registro')
+})
+export default viewsRouter;
